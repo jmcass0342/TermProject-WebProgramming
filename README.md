@@ -2,9 +2,9 @@
 
 
 
-Jose Casseres
+<b>Jose Casseres</b>
 
-Available meeting times:
+<b>Available meeting times:</b>
 
 Monday: 7 pm - until needed
 Tuesday-Thursday: After 7pm
