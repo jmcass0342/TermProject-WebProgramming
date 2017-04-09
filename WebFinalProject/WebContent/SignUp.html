@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sign Up</title>
+
+<style>
+	table,td,tr{
+		border: 1px solid;
+	}
+
+</style>
+</head>
+<body>
+
+<h1>Please fill out the following form</h1>
+
+<form action="SignUp" method="POST">
+<table>
+	<tr>
+		<td>First Name </td>
+		<td> <input type ="text" name="firstName" size="35" required></td>
+	</tr>
+	<tr>
+		<td>Last Name </td>
+		<td> <input type ="text" name="lastName" size="35" required></td>
+	</tr>
+	<tr>
+		<td>UserName </td>
+		<td> <input type ="text" name="userName" size="35" required></td>
+	</tr>
+	<tr>
+		<td>Password</td>
+		<td> <input type ="password" name="password" size="35" required></td>
+	</tr>
+	<tr>
+		<td>Email</td>
+		<td> <input type ="text" name="email" size="35" required></td>
+	</tr>
+	<tr>
+		<td>Workout Difficulty</td>
+		<td><input type ="radio" name="difficulty" value="1"> Beginner
+			<input type ="radio" name="difficulty" value ="2" > Intermediate
+			<input type ="radio" name="difficulty" value="3" > Expert
+		</td>
+	</tr>
+	<tr>
+		<td>Number of days for program</td>
+		<td><input type ="radio" name="days" value="1" > 1
+			<input type ="radio" name="days" value= "2" > 2
+			<input type ="radio" name="days" value= "3" > 3
+		</td>
+	</tr>
+	
+</table>
+
+
+ <input type="submit">
+</form>
+
+</body>
+</html>
