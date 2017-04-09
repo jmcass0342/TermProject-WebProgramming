@@ -81,8 +81,6 @@ CREATE TABLE program(
 	day1 INT NOT NULL,
 	day2 INT,
 	day3 INT,
-	startDate Date NOT NULL,
-	endDate Date,
 	
 	foreign key (day1) references workout(id),
     foreign key (day2) references workout(id),
@@ -94,7 +92,8 @@ CREATE TABLE hasProgram(
 	id INT PRIMARY KEY auto_increment,
 	userId INT,
     programId INT,
-    
+    startDate Date NOT NULL,
+	endDate Date NOT NULL,
     
     foreign key (userId) references Users(id),
     foreign key (programId) references program(id)
@@ -128,6 +127,19 @@ VALUES (3006,'RFE Squat','https://youtu.be/4NVyqqCjqjU',3);
 INSERT INTO exercises 
 VALUES (3007,'Reverse Wall Slide','https://youtu.be/zZs08ZCuKkQ',3);
 
+INSERT INTO exercises 
+VALUES (3011,'Banded Barbell Squat','https://youtu.be/JhF6uteg7Cc',1);
+
+INSERT INTO exercises 
+VALUES (3014,'Front Squat','https://youtu.be/u9ziflQn3pE',1);
+
+INSERT INTO exercises 
+VALUES (3015,'RFE Squat','https://youtu.be/4NVyqqCjqjU',2);
+
+INSERT INTO exercises 
+VALUES (3016,'Dumbbell Walking Lunges','https://youtu.be/ZG0QRvjBvqE',2);
+
+
 INSERT INTO tier1 
 VALUES(2000,3000,3001);
 
@@ -136,6 +148,7 @@ VALUES(2001,3002,3003,3004);
 
 INSERT INTO tier3 
 VALUES(2002,3005,3006,3007);
+
 
 INSERT INTO Users 
 VALUES (1,'Test','User', 'test','123abc', 'mail@mail.com', '2', '1',0);
@@ -148,7 +161,7 @@ INSERT INTO workout
 VALUES(5001,2000,2001,2002);
 
 INSERT INTO program
-VALUES(4001,5001,NULL,NULL,CURDATE(),DATE_ADD(CURDATE(), INTERVAL 1 WEEK));
+VALUES(4001,5001,NULL,NULL);
 
 INSERT INTO hasProgram
-VALUES(LAST_INSERT_ID(),1,4001);
+VALUES(LAST_INSERT_ID(),1,4001,CURDATE(),DATE_ADD(CURDATE(), INTERVAL 1 WEEK));
