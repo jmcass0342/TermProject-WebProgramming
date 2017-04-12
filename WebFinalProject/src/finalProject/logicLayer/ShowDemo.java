@@ -278,6 +278,41 @@ public class ShowDemo {
 		return check;
 	}
 	
+	public List<Exercise> getExerciseByTier(int tier) throws SQLException{
+		List<Exercise> check = new ArrayList<Exercise>();
+		ResultSet rs = demo.getExerciseByTier(tier);
+		 while( rs.next() ) {
+	         	Exercise exercise = new Exercise();
+	         	exercise.setId(rs.getInt(1));
+	         	exercise.setExerciseName(rs.getString(2));
+	         	exercise.setVideo(rs.getString(3));
+	         	exercise.setTier(tier);
+	         	check.add(exercise);
+	         }
+		return check;
+	}
+	
+	
+	public String getTierExercises(int tier) throws SQLException{
+		String check = null;
+		ResultSet rs = demo.getTierExercises(tier);
+		 while( rs.next() ) {
+	         	check = "Exercise 1: " + rs.getString(1) + " <br>Exercise 2: " + rs.getString(2) +"<br>TierId: "+ tier +"<br><br>";
+	         	System.out.println(check);
+	         }
+		return check;
+	}
+	
+	public String getOtherTierExercises(int tier, int tierNumber) throws SQLException{
+		String check = null;
+		ResultSet rs = demo.getOtherTierExercises(tier, tierNumber);
+		 while( rs.next() ) {
+	         	check = "Exercise 1: " + rs.getString(1) + " <br>Exercise 2: " + rs.getString(2) + "<br>Exercise 3: " + rs.getString(3) +"<br>TierId: "+ tier + "<br><br>";
+	         	System.out.println(check);
+	         }
+		return check;
+	}
+	
 	public int addUser(String firstName, String lastName, String userName, String password, String email, int difficulty, int days){
 		return demo.addUser(firstName, lastName, userName, password, email, difficulty, days);
 			
@@ -285,6 +320,30 @@ public class ShowDemo {
 	
 	public int assignProgram(int userId , int programId){
 		return demo.assignProgram(userId, programId);
+	}
+	
+	public int insertExercise(String name, String link, int tier){
+		return demo.insertExercise(name, link, tier);
+	}
+	
+	public int insertTier1(int exercise1,int exercise2){
+		return demo.insertTier1(exercise1, exercise2);
+	}
+	
+	public int insertTier2(int exercise1,int exercise2, int exercise3){
+		return demo.insertTier2(exercise1, exercise2, exercise3);
+	}
+	
+	public int insertTier3(int exercise1,int exercise2, int exercise3){
+		return demo.insertTier3(exercise1, exercise2, exercise3);
+	}
+	
+	public int insertWorkout(int tier1, int tier2, int tier3){
+		return demo.insertWorkout(tier1, tier2, tier3);
+	}
+	
+	public int insertProgram(int day1, int day2, int day3){
+		return demo.insertProgram(day1, day2, day3);
 	}
 	
 	public void disconnect(){

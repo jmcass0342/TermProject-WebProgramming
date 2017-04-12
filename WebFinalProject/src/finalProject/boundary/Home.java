@@ -4,10 +4,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -17,9 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import finalProject.entity.Program;
 import finalProject.entity.User;
-import finalProject.logicLayer.ShowDemo;
 import finalProject.session.Session;
 import finalProject.session.SessionManager;
 import freemarker.template.Configuration;
@@ -27,15 +22,15 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 /**
- * Servlet implementation class GetWorkout
+ * Servlet implementation class Home
  */
-@WebServlet("/GetWorkout")
-public class GetWorkout extends HttpServlet {
+@WebServlet("/Home")
+public class Home extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static  String         templateDir = "WEB-INF/templates";
-	static  String         signUpTemplateName = "GetWorkout.ftl";
+	static  String         userHomeTemplateName = "WelcomeUser.ftl";
+	static  String         adminHomeTemplateName = "WelcomeAdmin.ftl";
 	static  String         failureTemplateName = "Failure.ftl";
-	static  String         successTemplateName = "Success.ftl";
 	private Map<String, Object> root = new HashMap<String,Object>();
 	   private Configuration cfg;
 	   
@@ -59,17 +54,7 @@ public class GetWorkout extends HttpServlet {
 	                );
 	    }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		doPost(request,response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 HttpSession    httpSession = null;
-	       
-	        String         username = null;
 	        String         ssid = null;
 	        Session        session = null;
 		
@@ -97,55 +82,20 @@ public class GetWorkout extends HttpServlet {
 	        	root.put( "reason", "Session expired or illegal; please log in" );
 	        	setUpTemplate(request,response,failureTemplateName);   
 	        }
-	        username = user.getUserName();
-	        
-	        System.out.println(username);
-	        try {
-				ShowDemo demo = new ShowDemo();
-				if(demo.checkProgram(user.getId()).isEmpty()){
-					List<Program> programs = demo.getPrograms();
-					List<Program> filtered = new ArrayList<Program>();
-					for(int i = 0; i < programs.size(); i++){
-						if(user.getDaysOfWorkout() == 1){
-							if(programs.get(i).getDay1() != 0 && programs.get(i).getDay2() == 0 && programs.get(i).getDay3() == 0){
-								System.out.println("im here");
-								filtered.add(programs.get(i));
-							}	
-						}else if(user.getDaysOfWorkout() == 2){
-							if(programs.get(i).getDay1() != 0 && programs.get(i).getDay2() != 0 && programs.get(i).getDay3() == 0){
-								filtered.add(programs.get(i));
-							}	
-						}else if(user.getDaysOfWorkout() == 3){
-							if(programs.get(i).getDay1() != 0 && programs.get(i).getDay2() != 0 && programs.get(i).getDay3() != 0){
-								filtered.add(programs.get(i));
-							}	
-						}
-					}
-					
-					int random = (int)(Math.random() * filtered.size() + filtered.get(0).getId());
-					if(demo.assignProgram(user.getId(), random) == 1){
-						System.out.println(random);
-						root.put("reason", "Success you have a workout!");
-						setUpTemplate(request,response,successTemplateName);
-					}else{
-						root.put("reason", "Error assigning workout");
-						setUpTemplate(request,response,failureTemplateName);
-					}
-				}
-				else{
-					root.put("reason", "You already have a workout for this week!");
-					setUpTemplate(request,response,failureTemplateName);
-				}
-				
-				demo.disconnect();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-	        
-	        
-	       
+	        root.put("username", user.getUserName());
+	        if(user.isAdmin()){
+	        	setUpTemplate(request,response,adminHomeTemplateName);
+	        }else{
+	        	setUpTemplate(request,response,userHomeTemplateName);
+	        }
+	 }
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
-	
+
 	public void setUpTemplate(HttpServletRequest request, HttpServletResponse response, String templateToDisplay){
 		Template resultTemplate = null;
 		BufferedWriter toClient = null;
@@ -196,6 +146,4 @@ public class GetWorkout extends HttpServlet {
         }
 		
 	}// end of setUpTemplate function
-	
-
 }

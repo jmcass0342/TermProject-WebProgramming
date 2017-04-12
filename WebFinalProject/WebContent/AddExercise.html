@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Add Exercise</title>
+</head>
+<body>
+
+<h1>Please fill out the following form</h1>
+
+<form action="AddExercise" method="POST">
+<table>
+	<tr>
+		<td>Exercise Name </td>
+		<td> <input type ="text" name="name" size="35" required></td>
+	</tr>
+	<tr>
+		<td>Link to video </td>
+		<td> <input type ="text" name="video" size="35" required></td>
+	</tr>
+	<tr>
+		<td>Tier type </td>
+		<td><input type ="radio" name="tier" value="1" required> 1
+			<input type ="radio" name="tier" value= "2" required> 2
+			<input type ="radio" name="tier" value= "3" required> 3
+		</td>
+	</tr>
+
+</table>
+
+
+ <input type="submit">
+</form>
+
+</body>
+</html>

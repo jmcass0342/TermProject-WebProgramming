@@ -420,7 +420,213 @@ public class Demo {
 		return rs;
 	}
 	
-	//select * from program where endDate > DATE_SUB(CURDATE(), INTERVAL 3 WEEK);
+	public int insertExercise(String name, String link, int tier){
+		String assign = "insert into exercises values (NULL, '" + name + "', '" + link +  "', "+ tier +" )";
+		System.out.println(assign);
+		Statement stmt2 = null;
+	 	int result = 0;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       if( stmt2.executeUpdate( assign ) == 1) { // statement returned a result
+	    	   result = 1;
+	       }else{
+	    	   result =0;
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public ResultSet getExerciseByTier(int tier){
+	 	String selectMovies = "select id, exerciseName, video from  exercises where tier = " + tier;
+	 	Statement stmt2 = null;
+	 	ResultSet rs = null;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       //
+	       if( stmt2.execute( selectMovies ) ) { // statement returned a result
+	          rs = stmt2.getResultSet();
+	        
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+	
+	
+	public ResultSet getTierExercises(int tier){
+	 	String selectMovies = "select e1.exerciseName, e2.exerciseName from exercises e1, exercises e2, tier1 t where t.id = " + tier + " and t.exercise1 = e1.id and t.exercise2 = e2.id";
+	 	System.out.println(selectMovies);
+	 	Statement stmt2 = null;
+	 	ResultSet rs = null;
+	 	//select e1.exerciseName, e2.exerciseName from exercises e1, exercises e2, tier1 t where t.id = 2000 and t.exercise1 = e1.id and t.exercise2 = e2.id;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       //
+	       if( stmt2.execute( selectMovies ) ) { // statement returned a result
+	          rs = stmt2.getResultSet();
+	        
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+	
+	
+	public ResultSet getOtherTierExercises(int tier, int tierNumber){
+	 	String selectMovies = "select e1.exerciseName, e2.exerciseName, e3.exerciseName from exercises e1, exercises e2, exercises e3, tier" + tierNumber +" t where t.id = " + tier + " and t.exercise1 = e1.id and t.exercise2 = e2.id and t.exercise3 = e3.id";
+	 	System.out.println(selectMovies);
+	 	Statement stmt2 = null;
+	 	ResultSet rs = null;
+	 	//select e1.exerciseName, e2.exerciseName from exercises e1, exercises e2, tier1 t where t.id = 2000 and t.exercise1 = e1.id and t.exercise2 = e2.id;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       //
+	       if( stmt2.execute( selectMovies ) ) { // statement returned a result
+	          rs = stmt2.getResultSet();
+	        
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+	
+	
+	
+	public int insertTier1(int exercise1, int exercise2){
+		String assign = "insert into tier1 values (NULL, " + exercise1 + ", " + exercise2 +")";
+		System.out.println(assign);
+		Statement stmt2 = null;
+	 	int result = 0;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       if( stmt2.executeUpdate( assign ) == 1) { // statement returned a result
+	    	   result = 1;
+	       }else{
+	    	   result =0;
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public int insertTier2(int exercise1, int exercise2, int exercise3){
+		String assign = "insert into tier2 values (NULL, " + exercise1 + ", " + exercise2 +", " + exercise3 + " )";
+		System.out.println(assign);
+		Statement stmt2 = null;
+	 	int result = 0;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       if( stmt2.executeUpdate( assign ) == 1) { // statement returned a result
+	    	   result = 1;
+	       }else{
+	    	   result =0;
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public int insertTier3(int exercise1, int exercise2, int exercise3){
+		String assign = "insert into tier3 values (NULL, " + exercise1 + ", " + exercise2 +", " + exercise3 + " )";
+		System.out.println(assign);
+		Statement stmt2 = null;
+	 	int result = 0;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       if( stmt2.executeUpdate( assign ) == 1) { // statement returned a result
+	    	   result = 1;
+	       }else{
+	    	   result =0;
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public int insertWorkout(int tier1, int tier2, int tier3){
+		String assign = "insert into workout values (NULL, " + tier1 + ", " + tier2 +", " + tier3 + " )";
+		System.out.println(assign);
+		Statement stmt2 = null;
+	 	int result = 0;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       if( stmt2.executeUpdate( assign ) == 1) { // statement returned a result
+	    	   result = 1;
+	       }else{
+	    	   result =0;
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public int insertProgram(int day1, int day2, int day3){
+		StringBuilder assign = new StringBuilder();
+		assign.append("insert into program values (NULL, "+ day1 + ", ");
+		if(day2 !=0){
+			assign.append(day2 + ", ");
+		}else{
+			assign.append( "NULL, ");
+		}
+		
+		if(day3 !=0){
+			assign.append(day3 + ", ");
+		}else{
+			assign.append( "NULL )");
+		}
+		
+
+		System.out.println(assign.toString());
+		Statement stmt2 = null;
+	 	int result = 0;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       if( stmt2.executeUpdate( assign.toString() ) == 1) { // statement returned a result
+	    	   result = 1;
+	       }else{
+	    	   result =0;
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 	
 	public void disconnect(){
 		try{

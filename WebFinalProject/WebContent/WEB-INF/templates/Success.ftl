@@ -10,8 +10,8 @@
 
 <h1>Success: ${reason}</h1>
 
-<a href="Login"> Logout </a>
-<a href="Login.html"> Back to Login </a>
+
+<a href= "Home"> Home </a>
 
 </body>
 </html>

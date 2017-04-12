@@ -10,6 +10,6 @@
 
 <h1>Failure: ${reason}</h1>
 
-
+<a href= "Home"> Home </a>
 </body>
 </html>

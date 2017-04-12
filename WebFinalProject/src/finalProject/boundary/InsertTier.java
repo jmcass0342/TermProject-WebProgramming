@@ -15,25 +15,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import finalProject.entity.Program;
-import finalProject.entity.User;
 import finalProject.logicLayer.ShowDemo;
-import finalProject.session.Session;
-import finalProject.session.SessionManager;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 /**
- * Servlet implementation class GetWorkout
+ * Servlet implementation class InsertTier
  */
-@WebServlet("/GetWorkout")
-public class GetWorkout extends HttpServlet {
+@WebServlet("/InsertTier")
+public class InsertTier extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static  String         templateDir = "WEB-INF/templates";
-	static  String         signUpTemplateName = "GetWorkout.ftl";
 	static  String         failureTemplateName = "Failure.ftl";
 	static  String         successTemplateName = "Success.ftl";
 	private Map<String, Object> root = new HashMap<String,Object>();
@@ -59,91 +53,48 @@ public class GetWorkout extends HttpServlet {
 	                );
 	    }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		doPost(request,response);
+			
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 HttpSession    httpSession = null;
-	       
-	        String         username = null;
-	        String         ssid = null;
-	        Session        session = null;
-		
-		
-		httpSession = request.getSession();
-	        if( httpSession == null ) {       // not logged in!
-	        	root.put("reason", "Session expired or illegal; please log in" );
-	        	setUpTemplate(request,response,failureTemplateName);
-	        }
-	        
-	        ssid = (String) httpSession.getAttribute( "ssid" );
-	        if( ssid == null ) {       // assume not logged in!
-	        	root.put( "reason", "Session expired or illegal; please log in" );
-	        	setUpTemplate(request,response,failureTemplateName);
-	        }
-
-	        session = SessionManager.getSessionById( ssid );
-	        if( session == null ){
-	        	root.put("reason", "Session expired or illegal; please log in" );
-	        	setUpTemplate(request,response,failureTemplateName);
-	        }
-	        
-	        User user = session.getUser();
-	        if( user == null ) {
-	        	root.put( "reason", "Session expired or illegal; please log in" );
-	        	setUpTemplate(request,response,failureTemplateName);   
-	        }
-	        username = user.getUserName();
-	        
-	        System.out.println(username);
-	        try {
-				ShowDemo demo = new ShowDemo();
-				if(demo.checkProgram(user.getId()).isEmpty()){
-					List<Program> programs = demo.getPrograms();
-					List<Program> filtered = new ArrayList<Program>();
-					for(int i = 0; i < programs.size(); i++){
-						if(user.getDaysOfWorkout() == 1){
-							if(programs.get(i).getDay1() != 0 && programs.get(i).getDay2() == 0 && programs.get(i).getDay3() == 0){
-								System.out.println("im here");
-								filtered.add(programs.get(i));
-							}	
-						}else if(user.getDaysOfWorkout() == 2){
-							if(programs.get(i).getDay1() != 0 && programs.get(i).getDay2() != 0 && programs.get(i).getDay3() == 0){
-								filtered.add(programs.get(i));
-							}	
-						}else if(user.getDaysOfWorkout() == 3){
-							if(programs.get(i).getDay1() != 0 && programs.get(i).getDay2() != 0 && programs.get(i).getDay3() != 0){
-								filtered.add(programs.get(i));
-							}	
-						}
-					}
-					
-					int random = (int)(Math.random() * filtered.size() + filtered.get(0).getId());
-					if(demo.assignProgram(user.getId(), random) == 1){
-						System.out.println(random);
-						root.put("reason", "Success you have a workout!");
-						setUpTemplate(request,response,successTemplateName);
-					}else{
-						root.put("reason", "Error assigning workout");
-						setUpTemplate(request,response,failureTemplateName);
-					}
-				}
-				else{
-					root.put("reason", "You already have a workout for this week!");
-					setUpTemplate(request,response,failureTemplateName);
-				}
-				
-				demo.disconnect();
-			} catch (SQLException e) {
-				e.printStackTrace();
+		String[] tiers = request.getParameterValues("options") ;
+		List<Integer> ids= new ArrayList<Integer>();
+		try {
+			ShowDemo demo = new ShowDemo();
+			for(String s : tiers){
+				//System.out.println(s.replaceAll(",", ""));
+				ids.add(Integer.parseInt(s.replaceAll(",", "")));
 			}
-	        
-	        
-	       
+			
+			
+			int temp = Integer.parseInt(request.getParameter("tier").replaceAll(",", ""));
+			int check = 0;
+			if(temp == 1){
+				check = demo.insertTier1(ids.get(0), ids.get(1));	
+			}else if(temp == 2){
+				check = demo.insertTier2(ids.get(0), ids.get(1), ids.get(2));
+			}else if(temp == 3){
+				check = demo.insertTier3(ids.get(0), ids.get(1), ids.get(2));
+			}
+			
+			if(check == 1){
+				root.put("reason", "added tier" + temp);
+				setUpTemplate(request,response,successTemplateName);
+			}else{
+				root.put("reason", "ading tier" + temp);
+				setUpTemplate(request,response,failureTemplateName);
+			}
+			
+			
+			demo.disconnect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void setUpTemplate(HttpServletRequest request, HttpServletResponse response, String templateToDisplay){
@@ -196,6 +147,5 @@ public class GetWorkout extends HttpServlet {
         }
 		
 	}// end of setUpTemplate function
-	
 
 }
