@@ -318,6 +318,22 @@ public class ShowDemo {
 			
 	}
 	
+	
+	public List<HasProgram> checkIfProgram(int userId) throws SQLException{
+		List<HasProgram> check = new ArrayList<HasProgram>();
+		ResultSet rs = demo.checkIfProgram(userId);
+		 while( rs.next() ) {
+	         	HasProgram program = new HasProgram();
+	         	program.setId(rs.getInt(1));
+	         	program.setUserId(userId);
+	         	program.setProgramId(rs.getInt(2));
+	         	program.setStartDate(rs.getDate(3));
+	         	program.setEndDate(rs.getDate(4));
+	         	check.add(program);
+	         }
+		return check;
+		
+	}
 	public int assignProgram(int userId , int programId){
 		return demo.assignProgram(userId, programId);
 	}
@@ -346,8 +362,22 @@ public class ShowDemo {
 		return demo.insertProgram(day1, day2, day3);
 	}
 	
+	public int updateAdminProfile(int userId, String firstname, String lastname, String username, String password, String email){
+		return demo.updateAdminProfile(userId, firstname, lastname, username, password, email);
+	}
+	
+	public int deleteUsers(int userId){
+		return demo.deleteUsers(userId);
+	}
+	
+	public int deleteUserPrograms(int userId){
+		return demo.deleteUserPrograms(userId);
+	}
+	
 	public void disconnect(){
 		demo.disconnect();
 	}
+	
+	
 	
 }

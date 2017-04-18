@@ -24,8 +24,8 @@ a{
 	<a href= "AddTiers">Add new tiers</a>
 	<a href="BuildWorkout">Build a workout </a>
 	<a href="CreateProgram">Create Programs </a>
-	<a href= "Delete"> Delete Users </a>
-	<a href="UpdateProfile"> Update your profile </a>
+	<a href= "DeleteUsers"> Delete Users </a>
+	<a href="UpdateAdminProfile"> Update your profile </a>
 	<a href="Login"> Logout</a>
 	
 </div>

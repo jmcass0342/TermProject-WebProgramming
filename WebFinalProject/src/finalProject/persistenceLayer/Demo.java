@@ -628,6 +628,95 @@ public class Demo {
 		return result;
 	}
 	
+	public int updateAdminProfile(int userId, String firstName, String lastName, String username, String password, String email){
+		int result =0;
+		StringBuilder update = new StringBuilder();
+		update.append("update Users set firstname = '" + firstName + "', ");
+		update.append("lastname = '" + lastName + "', " );
+		update.append("username = '" + username + "', ");
+		update.append("password = '"+ password + "', " );
+		update.append("email = '"+ email + "'" );
+		update.append("where id = " + userId);
+		Statement stmt2 = null;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       if( stmt2.executeUpdate( update.toString()) == 1) { // statement returned a result
+	    	   result = 1;
+	       }else{
+	    	   result =0;
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public int deleteUsers(int userId){
+		int result = 0;
+		String delete = "delete from Users where id = " + userId;
+		Statement stmt2 = null;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       if( stmt2.executeUpdate( delete) == 1) { // statement returned a result
+	    	   result = 1;
+	       }else{
+	    	   result =0;
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+		
+	}
+	
+	public ResultSet checkIfProgram(int userId){
+		ResultSet rs = null;
+		Statement stmt2 = null;
+		String check = "select id, programId, startDate, endDate from hasProgram where userId = " + userId;
+		
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       //
+	       if( stmt2.execute( check ) ) { // statement returned a result
+	          rs = stmt2.getResultSet();
+	        
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return rs;
+	}
+	
+	public int deleteUserPrograms(int userId){
+		int result = 0;
+		String delete = "delete from hasProgram where userId = " + userId;
+		Statement stmt2 = null;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       if( stmt2.executeUpdate( delete) == 1) { // statement returned a result
+	    	   result = 1;
+	       }else{
+	    	   result =0;
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+
+	}
+	
+	
 	public void disconnect(){
 		try{
 			conn.close();
