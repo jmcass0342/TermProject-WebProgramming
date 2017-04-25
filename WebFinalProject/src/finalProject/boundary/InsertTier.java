@@ -28,8 +28,8 @@ import freemarker.template.TemplateException;
 public class InsertTier extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static  String         templateDir = "WEB-INF/templates";
-	static  String         failureTemplateName = "Failure.ftl";
-	static  String         successTemplateName = "Success.ftl";
+	static  String         failureTemplateName = "adminFailure.ftl";
+	static  String         successTemplateName = "adminSuccess.ftl";
 	private Map<String, Object> root = new HashMap<String,Object>();
 	   private Configuration cfg;
 	   

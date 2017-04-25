@@ -26,8 +26,8 @@ import freemarker.template.TemplateException;
 public class SignUp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static  String         templateDir = "WEB-INF/templates";
-	static  String         signUpTemplateName = "Success.ftl";
-	static  String         failureTemplateName = "Failure.ftl";
+	static  String         signUpTemplateName = "UpdateSuccess.ftl";
+	static  String         failureTemplateName = "UpdateFailure.ftl";
 	private Map<String, Object> root = new HashMap<String,Object>();
 	   private Configuration cfg;
 	   

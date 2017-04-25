@@ -26,7 +26,7 @@ import freemarker.template.TemplateException;
 public class Demonstration extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static  String         templateDir = "WEB-INF/templates";
-	static  String         resultTemplateName = "Show.ftl";
+	static  String         resultTemplateName = "exerciseList.ftl";
 	private Map<String, Object> root = new HashMap<String,Object>();
 	   private Configuration cfg;
 	   

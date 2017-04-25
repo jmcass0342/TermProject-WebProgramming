@@ -108,7 +108,6 @@ public class GetWorkout extends HttpServlet {
 					for(int i = 0; i < programs.size(); i++){
 						if(user.getDaysOfWorkout() == 1){
 							if(programs.get(i).getDay1() != 0 && programs.get(i).getDay2() == 0 && programs.get(i).getDay3() == 0){
-								System.out.println("im here");
 								filtered.add(programs.get(i));
 							}	
 						}else if(user.getDaysOfWorkout() == 2){
@@ -122,9 +121,16 @@ public class GetWorkout extends HttpServlet {
 						}
 					}
 					
-					int random = (int)(Math.random() * filtered.size() + filtered.get(0).getId());
-					if(demo.assignProgram(user.getId(), random) == 1){
-						System.out.println(random);
+					
+					
+					int random = 0;
+					
+					for(int i = 0 ; i < 10 ; i++){
+						random = (int)(Math.random() * filtered.size() + 0);
+						System.out.println("random: " + random);
+					}
+					System.out.println("final random: " + random);
+					if(demo.assignProgram(user.getId(), filtered.get(random % filtered.size()).getId()) == 1){
 						root.put("reason", "Success you have a workout!");
 						setUpTemplate(request,response,successTemplateName);
 					}else{

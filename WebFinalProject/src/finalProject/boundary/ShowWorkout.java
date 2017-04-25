@@ -100,6 +100,8 @@ public class ShowWorkout extends HttpServlet {
         try {
 			ShowDemo demo = new ShowDemo();
 			List<HasProgram> programForWeek = demo.checkProgram(user.getId());
+			
+			
 			if(!programForWeek.isEmpty()){ // check there is a program for the week
 				List<Program> program = demo.getProgramById(programForWeek.get(0).getProgramId());
 				List<Workout> workout = new ArrayList<Workout>();
@@ -195,6 +197,7 @@ public class ShowWorkout extends HttpServlet {
 				for(int i =0; i < days.size() ; i++){
 					root.put("program" + (i+1), days.get(i));
 				}
+				root.put("user", user);
 				setUpTemplate(request,response,scheduleTemplateName);
 			}
 			else{

@@ -13,6 +13,7 @@ import finalProject.entity.Tier2;
 import finalProject.entity.Tier3;
 import finalProject.entity.User;
 import finalProject.entity.Workout;
+import finalProject.entity.Tip;
 import finalProject.persistenceLayer.Demo;
 public class ShowDemo {
 	
@@ -25,6 +26,39 @@ public class ShowDemo {
 	public List<User> getUsers() throws SQLException{
 		List<User> users = new ArrayList<User>();
 		ResultSet rs = demo.getUsers();
+		 while( rs.next() ) {
+         	User user = new User();
+         	user.setId(rs.getInt(1));
+         	user.setFirstName(rs.getString(2));
+         	user.setLastName(rs.getString(3));
+         	user.setUserName(rs.getString(4));
+         	user.setPassword(rs.getString(5));
+         	user.setEmail(rs.getString(6));
+         	user.setExpertise(rs.getInt(7));
+         	user.setDaysOfWorkout(rs.getInt(8));
+         	user.setAdmin(rs.getBoolean(9));
+         	users.add(user);
+         }
+	
+		return users;	
+	}
+	
+	public List<Tip> getTips(int id) throws SQLException{
+		List<Tip> tips = new ArrayList<Tip>();
+		ResultSet rs = demo.getTips(id);
+		 while( rs.next() ) {
+         	Tip tip = new Tip();
+         	tip.setId(rs.getInt(1));
+         	tip.setTip(rs.getString(2));
+         	tips.add(tip);
+         }
+	
+		return tips;	
+	}
+	
+	public List<User> getSpecificUsers(String username) throws SQLException{
+		List<User> users = new ArrayList<User>();
+		ResultSet rs = demo.getSpecificUserInfo(username);
 		 while( rs.next() ) {
          	User user = new User();
          	user.setId(rs.getInt(1));
@@ -78,6 +112,33 @@ public class ShowDemo {
          }
 	
 		return exercises;
+	}
+	
+	public List<Exercise> getFourExercises() throws SQLException{
+		List<Exercise> exercises = new ArrayList<Exercise>();
+		ResultSet rs = demo.getFourExercises();
+		 while( rs.next() ) {
+         	Exercise exercise = new Exercise();
+         	exercise.setId(rs.getInt(1));
+         	exercise.setExerciseName(rs.getString(2));
+         	exercise.setVideo(rs.getString(3));
+         	exercise.setTier(rs.getInt(4));
+         	exercises.add(exercise);
+         }
+	
+		return exercises;
+	}
+	
+	public List<Tip> getRandomTips() throws SQLException{
+		List<Tip> tips = new ArrayList<Tip>();
+		ResultSet rs = demo.getRandomTip();
+		 while( rs.next() ) {
+         	Tip tip = new Tip();
+         	tip.setId(rs.getInt(1));
+         	tip.setTip(rs.getString(2));
+         	tips.add(tip);
+         }
+		return tips;
 	}
 	
 	public List<Tier1> getTier1() throws SQLException{
@@ -315,6 +376,11 @@ public class ShowDemo {
 	
 	public int addUser(String firstName, String lastName, String userName, String password, String email, int difficulty, int days){
 		return demo.addUser(firstName, lastName, userName, password, email, difficulty, days);
+			
+	}
+	
+	public int updateUser(String firstName, String lastName, String userName, String password, String email, int difficulty, int days){
+		return demo.updateUser(firstName, lastName, userName, password, email, difficulty, days);
 			
 	}
 	

@@ -32,8 +32,8 @@ public class UpdateAdminProfile extends HttpServlet {
 	static  String         templateDir = "WEB-INF/templates";
 	static  String         tiersTemplateName = "Tiers.ftl";
 	static  String         updateTemplateName = "UpdateAdmin.ftl";
-	static  String         failureTemplateName = "Failure.ftl";
-	static  String         successTemplateName = "Success.ftl";
+	static  String         failureTemplateName = "adminFailure.ftl";
+	static  String         successTemplateName = "adminSuccess.ftl";
 	private Map<String, Object> root = new HashMap<String,Object>();
 	   private Configuration cfg;
 	   

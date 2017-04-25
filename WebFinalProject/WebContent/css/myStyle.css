@@ -1,0 +1,31 @@
+.navbar-brand 
+{
+    font-family: 'Knewave', cursive; /* Google Font */
+}
+
+body, .nav, .container, .navbar-inverse
+{
+    background-color: crimson;
+    background-image: url("http://www.zingerbug.com/Backgrounds/background_images/deep_red_abstract_stone_pattern_tileable.jpg");
+}
+
+h1, h2, h3, h4, p
+{
+    color: #c0c0c0;
+}
+
+label
+{
+	 color: #c0c0c0;
+	 padding: 5px;
+}
+
+td .label
+{
+    color: #c0c0c0;
+}
+
+.pageFooter
+{
+    color: #c0c0c0;
+}

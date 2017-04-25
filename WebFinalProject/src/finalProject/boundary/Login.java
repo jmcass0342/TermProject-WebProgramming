@@ -4,7 +4,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -14,7 +17,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import finalProject.entity.Exercise;
+import finalProject.entity.HasProgram;
+import finalProject.entity.Program;
+import finalProject.entity.Tier1;
+import finalProject.entity.Tier2;
+import finalProject.entity.Tier3;
+import finalProject.entity.Tip;
 import finalProject.entity.User;
+import finalProject.entity.Workout;
 import finalProject.logicLayer.LoginValidation;
 import finalProject.logicLayer.ShowDemo;
 import finalProject.session.Session;
@@ -70,6 +81,14 @@ public class Login extends HttpServlet {
 		username = request.getParameter("username");
 		password = request.getParameter("password");
 		
+		try {
+			ShowDemo showTwo = new ShowDemo();
+			root.put("randomTips", showTwo.getRandomTips());
+			showTwo.disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		
 		httpSession = request.getSession();
 		ssid = (String) httpSession.getAttribute("ssid");
@@ -119,10 +138,10 @@ public class Login extends HttpServlet {
 					User user = show.getValidation(username, password).get(0);
 					show.disconnect();
 					if(user.isAdmin()){
-						root.put("username", user.getUserName());
+						root.put("username", user.getFirstName());
 						setUpTemplate(request,response,resultAdminTemplateName);
 					}else{
-						root.put("username", user.getUserName());
+						root.put("username", user.getFirstName());
 						setUpTemplate(request,response, resultTemplateName);
 					}
 				}
@@ -138,38 +157,54 @@ public class Login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 HttpSession    httpSession = null;
-	     String         ssid = null;
-		httpSession = request.getSession( false );
-        if( httpSession != null ) {
-            ssid = (String) httpSession.getAttribute( "ssid" );
-            if( ssid != null ) {
-                System.out.println( "Already have ssid: " + ssid );
-                Session session = SessionManager.getSessionById( ssid );
-                if( session == null ) {
-                    System.out.println( "Session expired or illegal; please log in" );
-                    return; 
-                }
-                LoginValidation logout = new LoginValidation();
-              
-                try {
-                	System.out.println(ssid);
-                	logout.logout(ssid);
-                    httpSession.removeAttribute("ssid");
-                    httpSession.invalidate();
-                    System.out.println( "Invalidated http session" );
-                }
-                catch( Exception e ) {
-                    e.printStackTrace();
-                }
-            }
-            else
-                System.out.println( "ssid is null" );
+	        String         ssid = null;
+	        Session        session = null;
+		
+	       
+		httpSession = request.getSession();
+		
+	        if( httpSession == null ) {       // not logged in!
+	        	root.put("reason", "Session expired or illegal; please log in" );
+	        	setUpTemplate(request,response,failureTemplateName);
+	        }
+	        
+	        ssid = (String) httpSession.getAttribute( "ssid" );
+	        if( ssid == null ) {       // assume not logged in!
+	        	root.put( "reason", "Session expired or illegal; please log in" );
+	        	setUpTemplate(request,response,failureTemplateName);
+	        }
+
+	        session = SessionManager.getSessionById( ssid );
+	        if( session == null ){
+	        	root.put("reason", "Session expired or illegal; please log in" );
+	        	setUpTemplate(request,response,failureTemplateName);
+	        }
+	        
+	        User user = session.getUser();
+	        if( user == null ) {
+	        	root.put( "reason", "Session expired or illegal; please log in" );
+	        	setUpTemplate(request,response,failureTemplateName);   
+	        }
+               
+	
+       
+       
+        LoginValidation logout = new LoginValidation();
+        
+        try {
+        	System.out.println(ssid);
+        	logout.logout(ssid);
+            httpSession.removeAttribute("ssid");
+            httpSession.invalidate();
+            System.out.println( "Invalidated http session" );
         }
-        else
-            System.out.println( "No http session" );
-        
-        
+        catch( Exception e ) 
+        {
+            e.printStackTrace();
+        }
+            
         setUpTemplate(request,response,logoutTemplateName);
+    
 	}
 	
 	

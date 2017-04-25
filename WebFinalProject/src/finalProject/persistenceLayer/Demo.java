@@ -18,8 +18,48 @@ public class Demo {
 		conn = DbUtils.connect();
 	}
 	
+	public ResultSet getTips(int id){
+		String getTips = "select * from tips where id = " + id;
+		Statement stmt2 = null;
+	 	ResultSet rs = null;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       //
+	       if( stmt2.execute(getTips) ) { // statement returned a result
+	          rs = stmt2.getResultSet();
+	        
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+	
 	public ResultSet getUsers(){
 	 	String selectMovies = "select * from  Users";
+	 	Statement stmt2 = null;
+	 	ResultSet rs = null;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       //
+	       if( stmt2.execute( selectMovies ) ) { // statement returned a result
+	          rs = stmt2.getResultSet();
+	        
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+	
+	public ResultSet getSpecificUserInfo(String username){
+	 	String selectMovies = "select * from  Users where username = '" + username + "'";
 	 	Statement stmt2 = null;
 	 	ResultSet rs = null;
 		try {
@@ -191,6 +231,45 @@ public class Demo {
 	       if( stmt2.execute( selectMovies ) ) { // statement returned a result
 	          rs = stmt2.getResultSet();
 	        
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+	
+	public ResultSet getFourExercises(){
+	 	String selectMovies = "select * from exercises order by rand() limit 4";
+	 	Statement stmt2 = null;
+	 	ResultSet rs = null;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       //
+	       if( stmt2.execute( selectMovies ) ) { // statement returned a result
+	          rs = stmt2.getResultSet();
+	        
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+	
+	public ResultSet getRandomTip(){
+	 	String selectTips = "select * from tips order by rand() limit 1";
+	 	Statement stmt2 = null;
+	 	ResultSet rs = null;
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       //
+	       if( stmt2.execute( selectTips ) ) { // statement returned a result
+	          rs = stmt2.getResultSet();
 	       }
 	  
 		} catch (SQLException e) {
@@ -603,7 +682,7 @@ public class Demo {
 		}
 		
 		if(day3 !=0){
-			assign.append(day3 + ", ");
+			assign.append(day3 + ")");
 		}else{
 			assign.append( "NULL )");
 		}
@@ -714,6 +793,30 @@ public class Demo {
 		}
 		return result;
 
+	}
+	
+	public int updateUser(String firstName, String lastName, String userName, String password, String email, int difficulty, int days){
+		String changeUser = "update Users set firstname = '" + firstName + "', lastname = '" + lastName + "', password = '" + password + "', email = '" + email + "', expertise = " + difficulty + ", daysToWorkOut = " + days + " where username = '" + userName + "'";
+		Statement stmt2 = null;
+	 	int result = 0;
+	 	System.out.println(changeUser);
+		try {
+			stmt2 = conn.createStatement();
+			 // retrieve the persistent objects
+	       //
+			
+		
+			
+	       if( stmt2.executeUpdate(changeUser) == 1) { // statement returned a result
+	    	   result = 1;
+	       }else{
+	    	   result =0;
+	       }
+	  
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	
