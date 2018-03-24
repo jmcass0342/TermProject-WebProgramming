@@ -33,10 +33,10 @@ public abstract class DbAccessConfig
 
     /** The database user name.
      */
-    static  String DB_CONNECTION_USERNAME = "root";
+    static  String DB_CONNECTION_USERNAME = "";
 
     /** The password for the database user.
      */
-    static  String DB_CONNECTION_PWD = "Jc20586442";
+    static  String DB_CONNECTION_PWD = "";
 
 }
